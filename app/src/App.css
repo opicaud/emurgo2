@@ -1,0 +1,15 @@
+.App {
+  text-align: center;
+  margin: 2rem;
+}
+
+.section {
+  text-align: left;
+  max-width: 720px;
+  margin: 4rem auto auto;
+}
+
+.balance h4 {
+  padding-top: 5px;
+  line-height: 0.5;
+}

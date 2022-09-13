@@ -1,0 +1,27 @@
+version: "3.0"
+services:
+  blockchain:
+    container_name: blockchain
+    image: trufflesuite/ganache-cli
+    ports:
+      - "8545:8545"
+    command: "-b 10 --chainId 1338"
+
+  transdao:
+    container_name: app
+    links:
+      - "blockchain"
+    image: 466295724864.dkr.ecr.eu-west-1.amazonaws.com/trackclear:latest
+    healthcheck:
+      test: curl -sf -X POST --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' blockchain:8545
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    command: >
+      sh -c "truffle compile &&
+             truffle migrate --network docker &&
+             cd app &&
+             npm run start"
+    ports:
+      - "80:3000"
+    tty: true
